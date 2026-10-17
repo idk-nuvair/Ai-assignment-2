@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Churn Intelligence Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <div class="wrapper">
+        <div class="glass-card">
+            <div class="header">
+                <span class="badge">Predictive ML Model</span>
+                <h2>Telecom Churn Engine</h2>
+                <p>Analyze customer retention probability in real time</p>
+            </div>
+
+            <form action="/predict" method="post" class="form-grid">
+                <div class="input-box full-width">
+                    <label for="tenure">
+                        <span>Tenure (Months)</span>
+                        <span class="tooltip">Duration with provider</span>
+                    </label>
+                    <input type="number" id="tenure" name="tenure" placeholder="e.g. 24" required min="0">
+                </div>
+
+                <div class="input-box">
+                    <label for="MonthlyCharges">Monthly ($)</label>
+                    <input type="number" id="MonthlyCharges" name="MonthlyCharges" step="0.01" placeholder="65.50" required min="0">
+                </div>
+
+                <div class="input-box">
+                    <label for="TotalCharges">Total ($)</label>
+                    <input type="number" id="TotalCharges" name="TotalCharges" step="0.01" placeholder="1572.00" required min="0">
+                </div>
+
+                <div class="input-box full-width">
+                    <label for="Contract">Contract Agreement</label>
+                    <div class="select-wrapper">
+                        <select id="Contract" name="Contract" required>
+                            <option value="Month-to-month">Month-to-Month (Standard)</option>
+                            <option value="One year">1 Year Commitment</option>
+                            <option value="Two year">2 Year Commitment</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Run Risk Assessment</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            {% if prediction_text %}
+                <div class="prediction-alert {{ status_class }}">
+                    <div class="alert-icon">
+                        {% if status_class == 'churn' %}
+                            ⚡
+                        {% elif status_class == 'no-churn' %}
+                            🛡️
+                        {% else %}
+                            ⚠️
+                        {% endif %}
+                    </div>
+                    <div class="alert-content">
+                        <span class="alert-label">Analysis Result</span>
+                        <h4>{{ prediction_text }}</h4>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
